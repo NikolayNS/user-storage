@@ -1,0 +1,54 @@
+application:
+  name: user-storage
+
+server:
+  compression:
+    enabled: true
+  error:
+    whitelabel:
+      enabled: false
+
+spring:
+  flyway:
+    schemas: public
+    validate-on-migrate: false
+    baseline-on-migrate: true
+  mvc:
+    throw-exception-if-no-handler-found: true
+  output.ansi.enabled: ALWAYS
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  datasource:
+    username: postgres
+    password: 123
+    url: jdbc:postgresql://localhost:5432/user_storage
+    driver-class-name: org.postgresql.Driver
+    maximumPoolSize: 10
+    minimumIdle: 5
+    idleTimeout: 10000
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: false
+        default-requeue-rejected: false
+        concurrency: 1
+        max-concurrency: 8
+        prefetch: 1
+
+springdoc:
+  api-docs.path: /api-docs
+  swagger-ui:
+    path: /private/swagger-ui
+    config-url: /api-docs/swagger-config
+    disable-swagger-default-url: true
+    urls[0]:
+      url: /api-docs
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: TRACE
